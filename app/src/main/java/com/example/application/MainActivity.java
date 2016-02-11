@@ -9,6 +9,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -23,28 +24,35 @@ public class MainActivity extends AppCompatActivity
     Button button;
     TextView text;
 
-    private String uuid = "";
-    private String name = "";
-    private int baudrate= 4800;
-    private int wanrvoltage= 8;
-    private int port = 2000;
+    private String uuid = ""; // datalinker bt uuid
+    private String name = ""; // name
+    private int baudrate= 4800; // baudrate of NMEA network
+    private int wanrvoltage= 8; // warning voltage - red light starts blinking if power source voltage is below than this
+    private int port = 2000; // tcp port
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        Log.d("main","onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         button = (Button) findViewById(R.id.button);
         text = (TextView) findViewById(R.id.text);
 
-        button.setOnClickListener(new View.OnClickListener()
-        {
-            public void onClick(View v)
-            {
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
                 connectDataLinker();
             }
         });
+    }
+
+    @Override
+    protected  void onDestroy()
+    {
+        Log.d("main","onDestroy");
+        super.onDestroy();
+        disconnectDataLinker();
     }
 
     private void connectDataLinker()
@@ -55,10 +63,11 @@ public class MainActivity extends AppCompatActivity
             intent.setClassName("net.sailracer.datalinker", "net.sailracer.datalinker.OPEN");
 
             // configuration for direct connection
-            intent.putExtra("uuid", "");
-            intent.putExtra("baudrate", 4800);
-            intent.putExtra("port", 2000);
-            intent.putExtra("warnvoltage", 8);
+
+            //intent.putExtra("uuid", "");
+            //intent.putExtra("baudrate", 4800);
+            //intent.putExtra("port", 2000);
+            //intent.putExtra("warnvoltage", 8);
 
             startActivityForResult(intent, 0);
         }
@@ -70,6 +79,7 @@ public class MainActivity extends AppCompatActivity
 
     private void disconnectDataLinker()
     {
+        stopCapture();
         try
         {
             Intent intent = new Intent();
@@ -196,7 +206,7 @@ public class MainActivity extends AppCompatActivity
         }
         catch (Exception error)
         {
-            text.setText(error.toString()+"\n"+text.getText());
+            //text.setText(error.toString()+"\n"+text.getText());
             stopCapture();
         }
         finally
