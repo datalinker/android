@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity
     Button button;
     TextView text;
 
-    private String uuid = ""; // datalinker bt uuid
+    private String address = ""; // datalinker bt uuid
     private String name = ""; // name
     private int baudrate= 4800; // baudrate of NMEA network
     private int wanrvoltage= 8; // warning voltage - red light starts blinking if power source voltage is below than this
@@ -82,12 +82,12 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent();
             intent.setClassName("net.sailracer.datalinker", "net.sailracer.datalinker.OPEN");
 
-            // configuration for direct connection
+            // configuration
 
-            //intent.putExtra("uuid", "");
+            //intent.putExtra("address", "");
             //intent.putExtra("baudrate", 4800);
             //intent.putExtra("port", 2000);
-            //intent.putExtra("warnvoltage", 8);
+            //intent.putExtra("warnvoltage", 5);
 
             startActivityForResult(intent, 0);
         }
@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity
                 text.setText(intent.getStringExtra("message")+"\n"+text.getText());
 
                 port = intent.getIntExtra("port", 2000);
-                uuid = intent.getStringExtra("uuid");
+                address = intent.getStringExtra("address");
                 name = intent.getStringExtra("name");
                 baudrate= intent.getIntExtra("baudrate", 4800);
                 wanrvoltage= intent.getIntExtra("warnvoltage", 8);
