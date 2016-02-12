@@ -30,8 +30,6 @@ public class MainActivity extends AppCompatActivity
     private int wanrvoltage= 8; // warning voltage - red light starts blinking if power source voltage is below than this
     private int port = 2000; // tcp port
 
-    private boolean isConnected = false;
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -46,21 +44,14 @@ public class MainActivity extends AppCompatActivity
         {
             public void onClick(View v)
             {
-                if (!isConnected)
-                {
-                    connectDataLinker();
-                }
-                else
-                {
-                    disconnectDataLinker();
-                }
+               connectDataLinker();
             }
         });
+
     }
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         AlertDialog.Builder exitDialog = new AlertDialog.Builder(this);
         exitDialog.setTitle("Exit application?");
 
@@ -100,7 +91,7 @@ public class MainActivity extends AppCompatActivity
 
             startActivityForResult(intent, 0);
         }
-        catch (ActivityNotFoundException anfe)
+        catch (ActivityNotFoundException e)
         {
             showDialog(MainActivity.this, "DataLinker server not found", "Download from Google play store?", "Yes", "No").show();
         }
@@ -187,8 +178,6 @@ public class MainActivity extends AppCompatActivity
 
     public void startCapture()
     {
-        isConnected = true;
-
         synchronized(this)
         {
             if (networkthread==null)
@@ -208,8 +197,6 @@ public class MainActivity extends AppCompatActivity
 
     public void stopCapture()
     {
-        isConnected = false;
-
         if( networkthread != null )
         {
             networkthread.interrupt();
