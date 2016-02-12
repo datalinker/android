@@ -40,11 +40,9 @@ public class MainActivity extends AppCompatActivity
         button = (Button) findViewById(R.id.button);
         text = (TextView) findViewById(R.id.text);
 
-        button.setOnClickListener(new View.OnClickListener()
-        {
-            public void onClick(View v)
-            {
-               connectDataLinker();
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                connectDataLinker();
             }
         });
 
@@ -82,9 +80,10 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent();
             intent.setClassName("net.sailracer.datalinker", "net.sailracer.datalinker.OPEN");
 
-            // configuration
+            // pre-set configuration
 
             //intent.putExtra("address", "");
+            //intent.putExtra("name", "");
             //intent.putExtra("baudrate", 4800);
             //intent.putExtra("port", 2000);
             //intent.putExtra("warnvoltage", 5);
